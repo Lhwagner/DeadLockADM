@@ -42,7 +42,8 @@ def process_message(r, client, msg):
             broadcast('accepted', client)
         else:
             broadcast('somebody are using the board, wait your turn', client)
-            broadcast(f'You are in the position {r.get_position()}', client)
+            broadcast(f'\nYou are in the position {r.get_position()}\n', client)
+            broadcast(f'The waiting time is {int(r.get_position()) * 15} seconds', client)
 
     elif 'close' in msg:
         r.revoke_resource()
@@ -52,6 +53,7 @@ def process_message(r, client, msg):
 
         for idx, item in enumerate(r.get_queue()):
             broadcast(f'You are in the position {idx + 1}', item)
+            broadcast(f'The waiting time is {int(idx + 1) * 15} seconds', item)
 
 
 def broadcast(msg, client):
