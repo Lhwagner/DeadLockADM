@@ -58,9 +58,9 @@ class Board(Resource):
     def has_waiting_client(self):
         return not self.queue.empty()
 
-    def request_resource(self, item):
+    def request_resource(self, item, username):
         if self.in_use:
-            self.insert_item(item)
+            self.insert_item({'client': item, 'username': username})
             return False
         else:
             self.in_use = True
@@ -78,6 +78,6 @@ class Board(Resource):
         if self.has_waiting_client() and not self.in_use:
             if item := self.get_item():
                 self.in_use = True
-                return item
+                return item.get('client')
 
         return
